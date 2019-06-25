@@ -6,11 +6,11 @@
 int A[N];
 
 // *p と *q の値を入れ替える関数
-void swap(int *x, int *y){
+void swap(int *p, int *q){
   int tmp;
-  tmp = *x;
-  *x = *y;
-  *y = tmp;
+  tmp = *p;
+  *p = *q;
+  *q = tmp;
 }
 
 /*
