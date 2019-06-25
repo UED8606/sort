@@ -6,11 +6,11 @@
 int A[N];
 
 // *p と *q の値を入れ替える関数
-void swap(int *p, int *q){
+void swap(int *x, int *y){
   int tmp;
-  tmp = *p;
-  *p = *q;
-  *q = tmp;
+  tmp = *x;
+  *x = *y;
+  *y = tmp;
 }
 
 /*
@@ -18,22 +18,24 @@ A[0], A[1], ..., A[n-1] の中でk+1番目に小さい値を返す関数
 ただし、Aの中身は書き換えてしまう。
 */
 int quick_select(int A[], int n, int k){
-  int i, j, pivot;
-
-// 真ん中の要素をピボットとする
-  pivot = A[n/2];
-  A[n/2] = A[0];
-  A[0] = pivot;
-  for(i = j = 1; i < n; i++){
-    if(A[i] <= pivot){
-      swap(A+i, A+j);
-      j++;
+    int i,j,eq,pivot;
+    pivot = A[0];
+    for(i = j = 1; i < n; i++){
+        if(A[i] < pivot){
+            swap(A+i, A+j);
+            j++;
+        }
     }
-  }
-
-  if(j == k+1) return pivot;
+    eq = j;
+    for(i = j = eq; i < n; i++){
+       if(A[i] == pivot){
+            swap(A+i, A+j);
+            j++;
+        }
+    }
+  if(eq <= k+1 && k+1 <= j) return pivot;
   else if(j < k+1) return quick_select(A+j, n-j, k-j);
-  else return quick_select(A+1, j-1, k);
+  else return quick_select(A+1, eq-1, k);
 }
 
 
