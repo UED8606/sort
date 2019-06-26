@@ -14,34 +14,51 @@ void swap(int *p, int *q){
 
 int quick_select(int A[], int n, int k){
     int i, j, pivot;
-    pivot = A[0];
-    for(i = j = 1; i < n; i++){
-        if(A[i] <= pivot){
-            swap(A+i, A+j);
-            j++;
+    if(n <= 5){
+        pivot = A[0];
+        for(i = j = 1; i < n; i++){
+            if(A[i] <= pivot){
+                swap(A+i, A+j);
+                j++;
+            }
         }
-    }
     
     if(j == k+1) return pivot;
     else if(j < k+1) return quick_select(A+j, n-j, k-j);
     else return quick_select(A+1, j-1, k);
-}
-//k+1番目に小さい値を返す
-
-int median_of_median(int A[], int n){
-    if(n <= 5 && n%2 == 1) return quick_select(A, n, (n-1)/2);
-    else if(n <= 5) return (quick_select(A, n, n/2-1) + quick_select(A, n ,n/2))/2;
+    }
+    
     else {
-        int i,x;
+        int x;
         x = 0;
         for(i = 0;i < (n+9)/5;i++){
-            if(n-x>=5){
-                B[i] = median_of_median(A+x, 5);
+            if(n-x >= 5){
+                B[i] = quick_select(A+x, 5, 2);
                 x=x+5;
             }
-            else B[i] = median_of_median(A+x, n-x);
+            else B[i] = quick_select(A+x, n-x,(n-x)/2);
         }
-        return median_of_median(B, (n+4)/5);
+        pivot = quick_select(B, (n+4)/5, (n+4)/10);
+        int s,y;
+        for(s = 0;s < n; s++){
+            if(A[s] == pivot){
+                y = s;
+                s = n-1;
+            }
+        }
+        A[y] = A[0];
+        A[0] = pivot;
+        for(i = j = 1; i < n; i++){
+            if(A[i] <= pivot){
+                swap(A+i, A+j);
+                j++;
+            }
+        }
+        
+        if(j == k+1) return pivot;
+        else if(j < k+1) return quick_select(A+j, n-j, k-j);
+        else return quick_select(A+1, j-1, k);
+        
     }
 }
 
