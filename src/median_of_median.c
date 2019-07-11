@@ -31,7 +31,7 @@ int quick_select(int A[], int n, int k){
     else {
         int x;
         x = 0;
-        for(i = 0;i < (n+9)/5;i++){
+        for(i = 0;i < (n+4)/5;i++){
             if(n-x >= 5){
                 B[i] = quick_select(A+x, 5, 2);
                 x=x+5;
